@@ -1,7 +1,6 @@
 package de.ait.javalessons.controller;
 
-import de.ait.javalessons.book.Book;
-import de.ait.javalessons.model.Car;
+import de.ait.javalessons.model.Book;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -40,20 +39,20 @@ public class RestApiBookController {
 
     @GetMapping
     Iterable<Book> getBooks() {
-        log.info("Getting all cars");
+        log.info("Getting all books");
         return bookList;
     }
 
     @GetMapping("/{id}")
-    Optional<Book> getBookById(@PathVariable String id) {
+    ResponseEntity<Book> getBookById(@PathVariable String id) {
         for (Book book : bookList) {
             if (book.getId().equals(id)) {
                 log.info("Book with id {} found", id);
-                return Optional.of(book);
+                return ResponseEntity.ok(book);
             }
         }
-        log.info("Book with id {} not found", id);
-        return Optional.empty();
+        log.warn("Book with id {} not found", id);
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
