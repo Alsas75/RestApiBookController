@@ -1,37 +1,29 @@
 package de.ait.javalessons.model;
 
-import java.util.UUID;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+@Data
+@Entity
 public class Car {
 
+    @Id
     private String id;
 
-    private  String name;
 
-    public Car() {
-    }
+    private String name;
 
-    public Car(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Car(String name){
-        this.id = UUID.randomUUID().toString();
-        this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
 
 

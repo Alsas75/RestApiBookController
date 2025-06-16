@@ -1,6 +1,8 @@
 package de.ait.javalessons.controller;
 
 import de.ait.javalessons.model.Car;
+import de.ait.javalessons.repository.CarRepository;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,22 +13,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @RestController
+@RequestMapping("/cars")
 public class RestApiCarController {
 
-    private List<Car> carList = new ArrayList<>();
+    private final CarRepository carRepository;
 
-    public RestApiCarController() {
-        carList.addAll(List.of(
-                new Car("1","Audi A4"),
+    public RestApiCarController(CarRepository carRepository) {
+        this.carRepository = carRepository;
+        this.carRepository.saveAll(List.of(
+                new Car("1", "Audi A4"),
                 new Car("2", "BMW M5"),
                 new Car("3", "Kia XCEED"),
                 new Car("4", "Mazda 6"),
@@ -36,49 +38,46 @@ public class RestApiCarController {
     }
 
     //@RequestMapping(value = "/cars", method = RequestMethod.GET)
-    @GetMapping("/cars")
-    private Iterable<Car> getCars() {
+    @GetMapping
+    Iterable<Car> getCars() {
         log.info("Getting all cars");
-        return carList;
+        return carRepository.findAll();
     }
 
-    @GetMapping("/cars/{id}")
-    Optional<Car> getCarById(@PathVariable String id) {
-        for(Car car: carList){
-            if(car.getId().equals(id)){
-                log.info("Car with id {} found", id);
-                return Optional.of(car);
-            }
+    @GetMapping("/{id}")
+    ResponseEntity<Car> getCarById(@PathVariable String id) {
+        Optional<Car> car = carRepository.findById(id);
+        if (car.isPresent()) {
+            log.info("Car with id {} found", id);
+            return ResponseEntity.status(HttpStatus.OK).body(car.get());
         }
-        log.info("Car with id {} not found", id);
-        return Optional.empty();
+        log.warn("Car with id {} not found", id);
+        return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/cars")
-    private Car postCar(@RequestBody Car car) {
-        carList.add(car);
+    @PostMapping
+    ResponseEntity<Car> postCar(@Valid @RequestBody Car car) {
+        Car savedCar = carRepository.save(car);
         log.info("Car with id {} posted", car.getId());
-        return car;
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCar);
     }
 
-    @PutMapping("/cars/{id}")
-    private ResponseEntity<Car> putCar(@PathVariable String id, @RequestBody Car car) {
-        int carIndex = -1;
-        for(Car carInList: carList){
-            if(carInList.getId().equals(id)){
-                carIndex = carList.indexOf(carInList);
-                carList.set(carIndex, car);
-                log.info("Car with id {} updated", id);
-            }
+    @PutMapping("/{id}")
+    ResponseEntity<Car> putCar(@PathVariable String id, @RequestBody Car car) {
+        if (carRepository.existsById(id)) {
+            Car carInDatabase = carRepository.findById(id).get();
+            car.setId(carInDatabase.getId());
+            car.setName(carInDatabase.getName());
+            carRepository.save(car);
+            log.info("Car with id {} updated", id);
+            return new ResponseEntity<>(car, HttpStatus.OK);
         }
-        return (carIndex == -1) ? new ResponseEntity<>(postCar(car), HttpStatus.CREATED)
-                : new ResponseEntity<>(car, HttpStatus.OK);
+        return postCar(car);
     }
 
-    @DeleteMapping("/cars/{id}")
-    private void deleteCar(@PathVariable String id) {
-        carList.removeIf(car -> car.getId().equals(id));
+    @DeleteMapping("/{id}")
+    void deleteCar(@PathVariable String id) {
+        carRepository.deleteById(id);
         log.info("Car with id {} deleted", id);
     }
-
 }

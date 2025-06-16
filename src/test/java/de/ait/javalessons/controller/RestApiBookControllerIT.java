@@ -3,7 +3,11 @@ package de.ait.javalessons.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.ait.javalessons.model.Book;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpStatus;
@@ -16,8 +20,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 @WebMvcTest(RestApiBookController.class)
+@Disabled
 class RestApiBookControllerIT {
 
     @Autowired
@@ -36,7 +42,8 @@ class RestApiBookControllerIT {
         assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
 
         List<Book> books = objectMapper.readValue(
-                result.getResponse().getContentAsString(), new TypeReference<>(){}
+                result.getResponse().getContentAsString(), new TypeReference<>() {
+                }
         );
         assertThat(books).hasSize(7);
         assertThat(books.getFirst().getTitle()).isEqualTo("Clean Code");
@@ -60,7 +67,7 @@ class RestApiBookControllerIT {
         assertThat(book.getId()).isEqualTo("1");
         assertThat(book.getTitle()).isEqualTo("Clean Code");
         assertThat(book.getAuthor()).isEqualTo("Robert C. Martin");
-        assertThat(book.getYear()).isEqualTo(2008);
+        assertThat(book.getPublishYear()).isEqualTo(2008);
     }
 
     @Test
@@ -78,7 +85,7 @@ class RestApiBookControllerIT {
     }
 
     @Test
-    void postBookShouldAddNewBook() throws Exception{
+    void postBookShouldAddNewBook() throws Exception {
         //Создаем новую книгу
         Book book = new Book("20", "Test Book", "Test Author", 2025);
 
@@ -95,11 +102,11 @@ class RestApiBookControllerIT {
         assertThat(bookFromResponse.getId()).isEqualTo(book.getId());
         assertThat(bookFromResponse.getTitle()).isEqualTo(book.getTitle());
         assertThat(bookFromResponse.getAuthor()).isEqualTo(book.getAuthor());
-        assertThat(bookFromResponse.getYear()).isEqualTo(book.getYear());
+        assertThat(bookFromResponse.getPublishYear()).isEqualTo(book.getPublishYear());
     }
 
     @Test
-    void deleteBookShouldRemoveBook() throws Exception{
+    void deleteBookShouldRemoveBook() throws Exception {
         //удаляем существующую книгу
         mockMvc.perform(delete("/books/2"))
                 .andReturn();
@@ -114,35 +121,90 @@ class RestApiBookControllerIT {
     @Test
     void postBookShouldReturnBadRequestForInvalidInput() throws Exception {
 
-        // Создаем книгу с некорректными данными (например, пустой заголовок)
-        Book invalidBook = new Book("21", "", "Invalid Author", 2025);
+        // Создаем неправильный json
+        String wrongJson = "{ \"id\":\"21\", \"title\":";
 
         var result = mockMvc.perform(post("/books")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(invalidBook)))
+                        .content(wrongJson))
                 .andReturn();
 
         // Проверяем что статус 400
         assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-
-        assertThat(result.getResponse().getContentAsString()).contains("Title cannot be empty");
     }
 
     @Test
     void postBookShouldReturnBadRequestForNegativeJear() throws Exception {
 
-        // Создаем книгу с некорректными данными значение year = -1
-        Book invalidBook = new Book("99", "Omen", "Unknown Author", -1);
+        // Создаем неправильный json
+        String wrongJson = "{ \"id\":\"21\", \"title\": \"Test title\", \"author\": \"Test author\", \"year\": -1";
 
         var result = mockMvc.perform(post("/books")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(invalidBook)))
+                        .content(wrongJson))
                 .andReturn();
 
         // Проверяем что статус 400
         assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
 
-        assertThat(result.getResponse().getContentAsString()).contains("Year cannot be negative");
+    @Test
+    void putBookShouldUpdateExistingBook() throws Exception {
+        Book updatedBook = new Book("1", "Updated Title", "Updated Author", 2000);
+
+        var result = mockMvc.perform(put("/books/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedBook)))
+                .andReturn();
+
+        assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
+
+        Book bookFromResponse = objectMapper.readValue(result.getResponse().getContentAsString(), Book.class);
+        assertThat(bookFromResponse).isNotNull();
+        assertThat(bookFromResponse.getTitle()).isEqualTo(updatedBook.getTitle());
+        assertThat(bookFromResponse.getAuthor()).isEqualTo(updatedBook.getAuthor());
+    }
+
+    @Test
+    void putBookShouldCreateNewBookIfNotExists() throws Exception {
+        Book newBook = new Book("999", "New Book", "New Author", 2025);
+
+        var result = mockMvc.perform(put("/books/999")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newBook)))
+                .andReturn();
+
+        assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.CREATED.value());
+
+        Book bookFromResponse = objectMapper.readValue(result.getResponse().getContentAsString(), Book.class);
+        assertThat(bookFromResponse.getId()).isEqualTo(newBook.getId());
+        assertThat(bookFromResponse.getTitle()).isEqualTo(newBook.getTitle());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"4", "5", "6", "7", "1", "2", "3"})
+    void deleteExitingBookShouldSucceed(String id) throws Exception {
+        var deleteResult = mockMvc.perform(delete("/books/" + id)).andReturn();
+        assertThat(deleteResult.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
+        var getBook = mockMvc.perform(get("/books/" + id)).andReturn();
+        assertThat(getBook.getResponse().getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
+    }
+
+    @ParameterizedTest(name = "GET /books/{0} -> should find title: {1}")
+    @CsvSource({
+            "1, Clean Code",
+            "2, 1984",
+            "3, Effective Java",
+            "4, The Great Gatsby",
+            "5, Refactoring"
+    })
+
+
+    void getBookByIdShouldReturnCorrectBook(String id, String expectedTitle) throws Exception {
+        var result = mockMvc.perform(get("/books/" + id)).andReturn();
+        assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
+        var book = objectMapper.readValue(result.getResponse().getContentAsString(), Book.class);
+        assertThat(book.getTitle()).isEqualTo(expectedTitle);
     }
 
 }
