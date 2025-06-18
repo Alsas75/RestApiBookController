@@ -54,9 +54,9 @@ public class RestApiCasinoController {
         Bet bet = new Bet();
         bet.setAmount(amount);
         bet.setWin(win);
-//        bet.setTimeOfBet(LocalDateTime.now());
+
         bet.setTimeOfBat(LocalDateTime.now());
-        //player.addBatt(bet);
+
         player.addBet(bet);
 
         player.setBalance(player.getBalance() - amount + winSize);
