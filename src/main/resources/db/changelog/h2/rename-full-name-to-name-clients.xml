@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="rename-full-name-to-name-customers" author="Oleksandr Seferov">
+        <comment>Изменение таблицы customers. Переименование full_name в name</comment>
+        <renameColumn
+                tableName="customers"
+                oldColumnName="full_name"
+                newColumnName="name"
+                columnDataType="VARCHAR"/>
+
+        <rollback>
+            <renameColumn
+                    tableName="customers"
+                    oldColumnName="name"
+                    newColumnName="full_name"
+                    columnDataType="VARCHAR"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
