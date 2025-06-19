@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="insert-customers-data" author="Oleksandr Seferov">
+        <comment>Заполнение таблицы customers</comment>
+        <insert tableName="customers">
+            <column name="id" value="1"/>
+            <column name="full_name" value="John Smith"/>
+            <column name="email" value="john.smith@example.com"/>
+        </insert>
+        <insert tableName="customers">
+            <column name="id" value="2"/>
+            <column name="full_name" value="Alice Johnson"/>
+            <column name="email" value="alice.j@example.com"/>
+        </insert>
+        <insert tableName="customers">
+            <column name="id" value="3"/>
+            <column name="full_name" value="Bob Wilson"/>
+            <column name="email" value="bob.wilson@example.com"/>
+        </insert>
+
+        <rollback>
+            <delete tableName="customers">
+                <where>id IN (1, 2, 3)</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

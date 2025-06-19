@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+
+    <changeSet id="add-not-null-to-description-products" author="Oleksandr Seferov">
+        <comment>Добавление NOT NULL ограничения на description</comment>
+        <addNotNullConstraint
+                tableName="products"
+                columnName="description"
+                columnDataType="varchar(255)"/>
+
+        <rollback>
+            <dropNotNullConstraint
+                    tableName="products"
+                    columnName="description"
+                    columnDataType="varchar(255)"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
