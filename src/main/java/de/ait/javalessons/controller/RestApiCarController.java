@@ -27,14 +27,14 @@ public class RestApiCarController {
 
     public RestApiCarController(CarRepository carRepository) {
         this.carRepository = carRepository;
-        this.carRepository.saveAll(List.of(
-                new Car("1", "Audi A4"),
-                new Car("2", "BMW M5"),
-                new Car("3", "Kia XCEED"),
-                new Car("4", "Mazda 6"),
-                new Car("5", "Mercedes Benz CLX"),
-                new Car("6", "Skoda Octavia")
-        ));
+//        this.carRepository.saveAll(List.of(
+//                new Car("1", "Audi A4"),
+//                new Car("2", "BMW M5"),
+//                new Car("3", "Kia XCEED"),
+//                new Car("4", "Mazda 6"),
+//                new Car("5", "Mercedes Benz CLX"),
+//                new Car("6", "Skoda Octavia")
+//        ));
     }
 
     //@RequestMapping(value = "/cars", method = RequestMethod.GET)
@@ -68,9 +68,9 @@ public class RestApiCarController {
             Car carInDatabase = carRepository.findById(id).get();
             car.setId(carInDatabase.getId());
             car.setName(carInDatabase.getName());
-            carRepository.save(car);
+            Car savedCar = carRepository.save(car);
             log.info("Car with id {} updated", id);
-            return new ResponseEntity<>(car, HttpStatus.OK);
+            return new ResponseEntity<>(savedCar, HttpStatus.OK);
         }
         return postCar(car);
     }
