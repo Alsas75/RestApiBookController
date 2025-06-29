@@ -1,0 +1,30 @@
+FROM базовый образ (openjdk)
+WORKDIR КАТАЛОГ ВНУТРИ КОНТЕЙНЕРА
+COPY копирует файлы в контейнер
+RUN выполняет команды во время сборки
+EXPOSE отрывает порт
+ENTRYPOINT основная команда, которая будет выполняться
+
+
+Жизненный цикл
+1. Пишем код в Intellij
+2. Собираем jar с помощью maven
+3. Пишем Dockerfile
+4. Собираем образ (image) через docker build
+5. Запускаем контейнер через команду docker run
+6. Если изменили код --> пересобираем
+
+
+spring.application.name=dockeruploadfiles
+#spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
+spring.datasource.url=${SPRING_DATABASE_URL}
+spring.datasource.username=postgres
+spring.datasource.password=qwerty007
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
+spring.servlet.multipart.enabled=true

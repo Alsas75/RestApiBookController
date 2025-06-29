@@ -21,5 +21,4 @@ public class BankAccount {
     private String ownerName;
 
     private Double balance;
-
 }

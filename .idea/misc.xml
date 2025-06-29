@@ -5,7 +5,27 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/inmemory/pom.xml" />
+        <option value="$PROJECT_DIR$/jdbc/pom.xml" />
+        <option value="$PROJECT_DIR$/jdbs/pom.xml" />
+        <option value="$PROJECT_DIR$/jpacustom/pom.xml" />
+        <option value="$PROJECT_DIR$/email/pom.xml" />
+        <option value="$PROJECT_DIR$/jwt/pom.xml" />
+        <option value="$PROJECT_DIR$/medicemail/pom.xml" />
+        <option value="$PROJECT_DIR$/jpa/pom.xml" />
+        <option value="$PROJECT_DIR$/mediapplication/pom.xml" />
+        <option value="$PROJECT_DIR$/appmed/pom.xml" />
+        <option value="$PROJECT_DIR$/uploadfiledatabase/pom.xml" />
+        <option value="$PROJECT_DIR$/uploadfileos/pom.xml" />
+        <option value="$PROJECT_DIR$/dockeremail/pom.xml" />
+        <option value="$PROJECT_DIR$/dockeruploadfiles/pom.xml" />
+        <option value="$PROJECT_DIR$/travelbox/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/mediapplication/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="zulu-21" project-jdk-type="JavaSDK">

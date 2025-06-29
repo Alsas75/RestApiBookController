@@ -1,8 +1,8 @@
 package de.ait.javalessons.controller;
 
+
 import de.ait.javalessons.model.BankAccount;
 import de.ait.javalessons.repository.BankAccountRepository;
-import de.ait.javalessons.repository.CarRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,24 +20,24 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/accounts")
+@RequestMapping("/api")
 public class RestApiBankAccountController {
+
     private BankAccountRepository bankAccountRepository;
 
     public RestApiBankAccountController(BankAccountRepository bankAccountRepository) {
         this.bankAccountRepository = bankAccountRepository;
-
     }
 
     @GetMapping
-    public List<BankAccount> getAllBankAccount() {
+    public List<BankAccount> getAllBankAccounts() {
         log.info("Getting all bank accounts");
         return bankAccountRepository.findAll();
     }
 
     @PostMapping
-    public ResponseEntity<BankAccount> createBankAccount(@RequestBody BankAccount bankAccount) {
-        log.debug("Creating bank account: {}", bankAccount);
+    public ResponseEntity<BankAccount> createBankAccount(BankAccount bankAccount) {
+        log.info("Creating bank account with id {}", bankAccount.getId());
         BankAccount savedBankAccount = bankAccountRepository.save(bankAccount);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedBankAccount);
     }
@@ -59,6 +58,7 @@ public class RestApiBankAccountController {
         bankAccountRepository.deleteById(id);
         log.info("Bank account with id: {} deleted", id);
     }
+
 
     //api/accounts/{id}/deposit?amount=500
     @PutMapping("/{id}/deposit")

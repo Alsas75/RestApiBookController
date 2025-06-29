@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -23,17 +24,10 @@ public class Car {
 
     @Id
     //@GeneratedValue(strategy = GenerationType.AUTO)
+    @NotBlank(message = "Id не должно быть пустым")
     private String id;
 
-    @NotBlank(message = "Название авто не должно быть пустым")
-    private String name;
+    @NotBlank(message = "Название не должно быть пустым")
+    private  String name;
 
 }
-
-
-
-
-
-
-
-

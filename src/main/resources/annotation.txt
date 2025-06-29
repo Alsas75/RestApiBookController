@@ -6,7 +6,8 @@ public DataSource dataSource(){
 return new DriverManagerSource("jdbc:h2:mem:development", "sa", "");
 }
 
-@ComponentScan (basePackages = "de.ait....") какие пакеты необходимо сканировать для автомотического обнаружения @Controller, @Repository....
+@ComponentScan (basePackages = "de.ait....") какие пакеты необходимо сканировать для
+ автомотического обнаружения @Controller, @Repository....
 
 @Value для внедрения значания из конфигурационного файла application.properties ({max.tax.value=5.0)
 @Value("${max.tax.value}")

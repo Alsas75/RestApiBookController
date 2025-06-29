@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,14 +28,14 @@ public class RestApiCarController {
 
     public RestApiCarController(CarRepository carRepository) {
         this.carRepository = carRepository;
-//        this.carRepository.saveAll(List.of(
-//                new Car("1", "Audi A4"),
-//                new Car("2", "BMW M5"),
-//                new Car("3", "Kia XCEED"),
-//                new Car("4", "Mazda 6"),
-//                new Car("5", "Mercedes Benz CLX"),
-//                new Car("6", "Skoda Octavia")
-//        ));
+        /**this.carRepository.saveAll(List.of(
+         new Car("1", "Audi A4"),
+         new Car("2", "BMW M5"),
+         new Car("3", "Kia XCEED"),
+         new Car("4", "Mazda 6"),
+         new Car("5", "Mercedes Benz CLX"),
+         new Car("6", "Skoda Octavia")
+         ));*/
     }
 
     //@RequestMapping(value = "/cars", method = RequestMethod.GET)
@@ -80,4 +81,5 @@ public class RestApiCarController {
         carRepository.deleteById(id);
         log.info("Car with id {} deleted", id);
     }
+
 }

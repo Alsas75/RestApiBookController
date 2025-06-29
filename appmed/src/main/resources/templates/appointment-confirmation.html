@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Пример письма</title>
+</head>
+<body>
+<h2>Уважаемый(ая), <span th:text="${name}">Имя</span></h2>
+<p>Ваша запись на прием успешно подтверждена.</p>
+<h3>Детали приема:</h3>
+<ul>
+    <li>Врач: <span th:text="${doctor}">Доктор</span></li>
+    <li>Отделение: <span th:text="${department}">Отделение</span></li>
+    <li>Дата и время: <span th:text="${datetime}">Дата/Время</span></li>
+</ul>
+
+<p>Дата отправки: <span th:text="${date}">Дата</span></p>
+</body>
+</html>

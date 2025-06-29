@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Пример письма</title>
+</head>
+<body>
+<h2>Здравствуйте, <span th:text="${name}">Имя</span></h2>
+<p>Это тестовое письмо из приложения Spring Boot</p>
+<p>Дата отправки: <span th:text="${date}">Дата</span></p>
+</body>
+</html>

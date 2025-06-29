@@ -1,5 +1,6 @@
 package de.ait.javalessons.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,15 +37,17 @@ public class Player {
     private int balance;
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Bet> bets = new ArrayList<>();
+    @JsonManagedReference
+    private List<Bet> bets =  new ArrayList<>();
 
-    public void addBet(Bet bet) {
+    public void addBett(Bet bet){
         bets.add(bet);
         bet.setPlayer(this);
     }
 
-    public void removeBet(Bet bet) {
+    public void removeBett(Bet bet){
         bets.remove(bet);
         bet.setPlayer(null);
     }
+
 }

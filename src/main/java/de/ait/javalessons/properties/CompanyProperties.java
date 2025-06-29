@@ -1,12 +1,10 @@
 package de.ait.javalessons.properties;
 
-import lombok.Getter;
-import lombok.Setter;
+
+import de.ait.javalessons.model.CompanyInfoResponse;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "company")
-@Setter
-@Getter
 public class CompanyProperties {
 
     private String name;
@@ -14,6 +12,33 @@ public class CompanyProperties {
     private String ceo;
 
     private int employeeCount;
+
+    public String getCompanyInfo() {
+        return new CompanyInfoResponse(name, ceo, employeeCount).toString();
+    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCeo() {
+        return ceo;
+    }
+
+    public void setCeo(String ceo) {
+        this.ceo = ceo;
+    }
+
+    public int getEmployeeCount() {
+        return employeeCount;
+    }
+
+    public void setEmployeeCount(int employeeCount) {
+        this.employeeCount = employeeCount;
+    }
 
 
 }

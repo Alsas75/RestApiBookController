@@ -23,20 +23,22 @@ import java.util.Optional;
 @RequestMapping("/books")
 public class RestApiBookController {
 
+
     private final BookRepository bookRepository;
 
     public RestApiBookController(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
-//        this.bookRepository.saveAll(List.of(
-//                new Book("1", "Clean Code", "Robert C. Martin", 2008),
-//                new Book("2", "1984", "George Orwell", 1949),
-//                new Book("3", "Effective Java", "Joshua Bloch", 2018),
-//                new Book("4", "The Great Gatsby", "F. Scott Fitzgerald", 1925),
-//                new Book("5", "Refactoring", "Martin Fowler", 1999),
-//                new Book("6", "To Kill a Mockingbird", "Harper Lee", 1960),
-//                new Book("7", "The Pragmatic Programmer", "Andrew Hunt, David Thomas", 1999)));
-//
+        /**this.bookRepository.saveAll(List.of(
+         new Book("1", "Clean Code", "Robert C. Martin", 2008),
+         new Book("2", "1984", "George Orwell", 1949),
+         new Book("3", "Effective Java", "Joshua Bloch", 2018),
+         new Book("4", "The Great Gatsby", "F. Scott Fitzgerald", 1925),
+         new Book("5", "Refactoring", "Martin Fowler", 1999),
+         new Book("6", "To Kill a Mockingbird", "Harper Lee", 1960),
+         new Book("7", "The Pragmatic Programmer", "Andrew Hunt, David Thomas", 1999)));*/
     }
+
+
     @GetMapping
     Iterable<Book> getBooks() {
         log.info("Getting all books");
@@ -45,7 +47,7 @@ public class RestApiBookController {
 
     @GetMapping("/{id}")
     ResponseEntity<Book> getBookById(@PathVariable String id) {
-        Optional<Book> book = bookRepository.findById(id);
+        Optional <Book> book = bookRepository.findById(id);
         if (book.isPresent()) {
             log.info("Book with id {} found", id);
             return ResponseEntity.status(HttpStatus.OK).body(book.get());
@@ -63,7 +65,7 @@ public class RestApiBookController {
 
     @PutMapping("/{id}")
     ResponseEntity<Book> putBook(@PathVariable String id, @RequestBody Book book) {
-        if (bookRepository.existsById(id)) {
+        if(bookRepository.existsById(id)){
             Book bookInDatabase = bookRepository.findById(id).get();
             book.setId(bookInDatabase.getId());
             book.setAuthor(bookInDatabase.getAuthor());

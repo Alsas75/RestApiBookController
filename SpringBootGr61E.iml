@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="4">
-  <component name="FacetManager">
-    <facet type="jpa" name="JPA">
-      <configuration>
-        <setting name="validation-enabled" value="true" />
-        <setting name="provider-name" value="Hibernate" />
-        <datasource-mapping />
-        <naming-strategy-map />
-      </configuration>
-    </facet>
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$" dumb="true">
+      <sourceFolder url="file://$MODULE_DIR$/jdbc/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/jdbc/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/jdbc/src/test" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/jpa/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/jpa/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/jpa/src/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/mediapplication/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mediapplication/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/mediapplication/src/test" type="java-test-resource" />
+    </content>
   </component>
 </module>

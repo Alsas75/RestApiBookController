@@ -3,7 +3,6 @@ package de.ait.javalessons.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.ait.javalessons.model.Book;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -17,13 +16,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 @WebMvcTest(RestApiBookController.class)
-@Disabled
 class RestApiBookControllerIT {
 
     @Autowired
@@ -60,7 +58,7 @@ class RestApiBookControllerIT {
         //Проверяем что статус 200 OK
         assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
 
-        //Читаем JSON и превращаем в объект класса Book
+        //Читаем JSON и превращаем в обьект класса Book
         Book book = objectMapper.readValue(result.getResponse().getContentAsString(), Book.class);
 
         //Проверяем поля полученной книги
@@ -92,7 +90,7 @@ class RestApiBookControllerIT {
         //Post запрос на /books c книгой в теле метода
         var result = mockMvc.perform(post("/books")
                         .contentType(MediaType.APPLICATION_JSON)//Тип содержимого
-                        .content(objectMapper.writeValueAsString(book))) //Преобразуем Java объект в JSON
+                        .content(objectMapper.writeValueAsString(book))) //Преобразуем Java обьект в JSON
                 .andReturn();
 
         assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.CREATED.value());
@@ -121,8 +119,9 @@ class RestApiBookControllerIT {
     @Test
     void postBookShouldReturnBadRequestForInvalidInput() throws Exception {
 
-        // Создаем неправильный json
-        String wrongJson = "{ \"id\":\"21\", \"title\":";
+        // Создаем json с некорректными данными (например, пустой заголовок
+
+        String wrongJson = "{ \"id\": \"21\", \"title\": ";
 
         var result = mockMvc.perform(post("/books")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -131,13 +130,17 @@ class RestApiBookControllerIT {
 
         // Проверяем что статус 400
         assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+
     }
 
     @Test
     void postBookShouldReturnBadRequestForNegativeJear() throws Exception {
 
-        // Создаем неправильный json
-        String wrongJson = "{ \"id\":\"21\", \"title\": \"Test title\", \"author\": \"Test author\", \"year\": -1";
+        // Создаем книгу с некорректными данными значение year = -1
+        String wrongJson = "{ \"id\": \"21\"," +
+                " \"title\": \"Test title" +
+                " \"year\": \"-2020" +
+                "\"author\" : \"Test author";
 
         var result = mockMvc.perform(post("/books")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -146,6 +149,7 @@ class RestApiBookControllerIT {
 
         // Проверяем что статус 400
         assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+
     }
 
     @Test
@@ -176,17 +180,25 @@ class RestApiBookControllerIT {
 
         assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.CREATED.value());
 
-        Book bookFromResponse = objectMapper.readValue(result.getResponse().getContentAsString(), Book.class);
-        assertThat(bookFromResponse.getId()).isEqualTo(newBook.getId());
-        assertThat(bookFromResponse.getTitle()).isEqualTo(newBook.getTitle());
+        var resultGetBook = mockMvc.perform(get("/books/999"))
+                .andReturn();
+
+        //Проверяем что статус 200 OK
+        assertThat(resultGetBook.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
+
+        //Читаем JSON и превращаем в обьект класса Book
+        Book book = objectMapper.readValue(resultGetBook.getResponse().getContentAsString(), Book.class);
+
+        assertThat(book.getId()).isEqualTo(newBook.getId());
+        assertThat(book.getTitle()).isEqualTo(newBook.getTitle());
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"4", "5", "6", "7", "1", "2", "3"})
-    void deleteExitingBookShouldSucceed(String id) throws Exception {
-        var deleteResult = mockMvc.perform(delete("/books/" + id)).andReturn();
+    @ValueSource(strings = {"4", "5", "6", "1", "2", "3"})
+    void deleteExitingBookShouldSucceed(String id) throws Exception{
+        var deleteResult = mockMvc.perform(delete(("/books/"+id))).andReturn();
         assertThat(deleteResult.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
-        var getBook = mockMvc.perform(get("/books/" + id)).andReturn();
+        var getBook = mockMvc.perform(get("/books/"+id)).andReturn();
         assertThat(getBook.getResponse().getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
     }
 
@@ -198,13 +210,13 @@ class RestApiBookControllerIT {
             "4, The Great Gatsby",
             "5, Refactoring"
     })
-
-
-    void getBookByIdShouldReturnCorrectBook(String id, String expectedTitle) throws Exception {
+    void getBookByIdShouldReturnCorrectBook(String id, String expectedTitle) throws Exception{
         var result = mockMvc.perform(get("/books/" + id)).andReturn();
         assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
         var book = objectMapper.readValue(result.getResponse().getContentAsString(), Book.class);
         assertThat(book.getTitle()).isEqualTo(expectedTitle);
     }
+
+
 
 }

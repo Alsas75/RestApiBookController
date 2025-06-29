@@ -3,20 +3,68 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
-      <profile name="Annotation profile for SpringBootGr61E" enabled="true">
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="email" />
+      </profile>
+      <profile name="Annotation profile for dockeremail" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../../mavenRepo/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+          <entry name="$PROJECT_DIR$/../../mavenRepo/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+        </processorPath>
+        <module name="uploadfileos" />
+        <module name="uploadfiledatabase" />
+        <module name="jpa" />
+        <module name="jdbc" />
+        <module name="SpringBootGr61E" />
+        <module name="inmemory" />
+        <module name="dockeremail" />
+        <module name="appmed" />
+      </profile>
+      <profile name="Annotation profile for jwt" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$PROJECT_DIR$/../../mavenRepo/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
-        <module name="SpringBootGr61E" />
+        <module name="jwt" />
+        <module name="dockeruploadfiles" />
+        <module name="travelbox" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="email (1)" target="21" />
+      <module name="jpacustom" target="21" />
+      <module name="jwt (1) (de.ait.javalessons)" target="21" />
+      <module name="mediapp" target="21" />
+      <module name="mediapplication" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="SpringBootGr61E" options="-parameters" />
+      <module name="appmed" options="-parameters" />
+      <module name="dockeremail" options="-parameters" />
+      <module name="dockeruploadfiles" options="-parameters" />
+      <module name="email" options="-parameters" />
+      <module name="email (1)" options="-parameters" />
+      <module name="inmemory" options="-parameters" />
+      <module name="jdbc" options="-parameters" />
+      <module name="jpa" options="-parameters" />
+      <module name="jpacustom" options="-parameters" />
+      <module name="jwt" options="-parameters" />
+      <module name="jwt (1) (de.ait.javalessons)" options="-parameters" />
+      <module name="mediapp" options="-parameters" />
+      <module name="mediapplication" options="-parameters" />
+      <module name="travelbox" options="-parameters" />
+      <module name="uploadfiledatabase" options="-parameters" />
+      <module name="uploadfileos" options="-parameters" />
     </option>
   </component>
 </project>
