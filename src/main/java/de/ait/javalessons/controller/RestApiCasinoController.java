@@ -54,10 +54,9 @@ public class RestApiCasinoController {
         Bet bet = new Bet();
         bet.setAmount(amount);
         bet.setWin(win);
+        bet.setTimeOfBet(LocalDateTime.now());
 
-        bet.setTimeOfBat(LocalDateTime.now());
-
-        player.addBet(bet);
+        player.addBett(bet);
 
         player.setBalance(player.getBalance() - amount + winSize);
 
@@ -72,13 +71,11 @@ public class RestApiCasinoController {
     @GetMapping("/player/{id}/bets")
     public List<Bet> getPlayersBets(@PathVariable Long id) {
         Player player = playerRepository.findById(id).orElseThrow();
-        log.info("Player with id {} gets bets", id);
         return player.getBets();
     }
 
     @GetMapping("/casino/winners")
     public List<Bet> getWinnersBets(){
-        log.info("All winers");
         return betRepository.getAllByWinIsTrue();
     }
 

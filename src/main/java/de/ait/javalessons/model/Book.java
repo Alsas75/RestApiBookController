@@ -21,7 +21,7 @@ public class Book {
 
     @Id
     //@GeneratedValue(strategy = GenerationType.AUTO)
-    @NotBlank(  message = "Id не должно быть пустым")
+    @NotBlank(message = "Id не должно быть пустым")
     private  String id;
 
     @NotBlank(message = "Название не должно быть пустым")
@@ -32,4 +32,5 @@ public class Book {
 
     @NotBlank (message = "Год выпуска не может быть пустым")
     private int publishYear;
+
 }

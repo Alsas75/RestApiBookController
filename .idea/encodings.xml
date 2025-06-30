@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/appmed/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dockeremail/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dockeruploadfiles/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/email/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/inmemory/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jdbc/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jpa/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jwt/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mediapplication/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/travelbox/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/uploadfiledatabase/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/uploadfileos/src/main/java" charset="UTF-8" />
+  </component>
+</project>
