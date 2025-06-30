@@ -10,4 +10,5 @@ public class TravelboxApplication {
         SpringApplication.run(TravelboxApplication.class, args);
     }
 
+
 }

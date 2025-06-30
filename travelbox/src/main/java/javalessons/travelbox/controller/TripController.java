@@ -47,7 +47,6 @@ public class TripController {
             String filePath = fileService.generateTxtFile(saveTrip);
             saveTrip.setFilePath(filePath);
 
-            //отправляет файл на email как вложение;
             emailService.sendEmailWithAttachment(saveTrip, filePath);
 
             return ResponseEntity.ok().body(saveTrip.getTitle());

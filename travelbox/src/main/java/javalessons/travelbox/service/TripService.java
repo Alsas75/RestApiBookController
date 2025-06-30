@@ -29,5 +29,6 @@ public class TripService {
         trip.setCreatedAt(LocalDateTime.now());
         trip.setData(tripRequest.toString().getBytes(StandardCharsets.UTF_8));
         return tripRepository.save(trip);
+
     }
 }

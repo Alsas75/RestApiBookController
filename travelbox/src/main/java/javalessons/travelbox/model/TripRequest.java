@@ -22,5 +22,4 @@ public class TripRequest {
     private LocalDate startDate;
     private LocalDate endDate;
     private String fileName;
-
     }

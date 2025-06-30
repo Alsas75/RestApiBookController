@@ -48,8 +48,6 @@ public class EmailService {
         mimeMessageHelper.setFrom("alex.minonis@gmail.com");
         mimeMessageHelper.setText(htmlContent, true);
 
-
-
         javaMailSender.send(mimeMessage);
     }
 }

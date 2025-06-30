@@ -35,9 +35,7 @@ public class FileService {
                     fileName
             );
         try {
-
             Files.write(filePath, content.getBytes());
-
         } catch (IOException e) {
             throw new RuntimeException("No data!" + e.getMessage());
         }
