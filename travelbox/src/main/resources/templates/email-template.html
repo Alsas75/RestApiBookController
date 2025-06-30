@@ -1,21 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Маршрут</title>
 </head>
 <body>
+<h1>TravelBox</h1>
 <h2>Здравствуйте, <span th:text="${name}">Имя</span></h2>
-<p>Это тестовое письмо из приложения Spring Boot</p>
-<p>Дата отправки: <span th:text="${date}">Дата</span></p>
-
-<!--"email": "user@example.com",-->
-<!--"name": "Игорь",-->
-<!--"trip": {-->
-<!--"title": "Весеннее путешествие",-->
-<!--"cities": ["Рим", "Флоренция", "Венеция"],-->
-<!--"startDate": "2025-04-12",-->
-<!--"endDate": "2025-04-21"-->
-
+<p>Маршрут: <span th:text="${city}">Маршрут</span></p>
+<p>Дата отправки: <span th:text="${startDate}">Дата</span></p>
+<p>Дата приезда: <span th:text="${endDate}">Дата</span></p>
+<br />
+<p>Имя файла: <span th:text="${fileName}">Имя файла</span></p>
 </body>
 </html>

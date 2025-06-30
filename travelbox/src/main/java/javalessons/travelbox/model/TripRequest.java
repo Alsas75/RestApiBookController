@@ -18,8 +18,9 @@ public class TripRequest {
     private String email;
     private String name;
     private String title;
-    private String cities;
+    private String city;
     private LocalDate startDate;
     private LocalDate endDate;
+    private String fileName;
 
     }

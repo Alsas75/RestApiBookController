@@ -3,6 +3,7 @@ package javalessons.travelbox.service;
 import javalessons.travelbox.model.Trip;
 import javalessons.travelbox.model.TripRequest;
 import javalessons.travelbox.repository.TripRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -19,7 +20,7 @@ public class TripService {
 
     public Trip saveTrip(TripRequest tripRequest) {
         Trip trip = new Trip();
-        trip.setCities(tripRequest.getCities());
+        trip.setCity(tripRequest.getCity());
         trip.setEmail(tripRequest.getEmail());
         trip.setTitle(tripRequest.getTitle());
         trip.setOwnerName(tripRequest.getName());
@@ -29,6 +30,4 @@ public class TripService {
         trip.setData(tripRequest.toString().getBytes(StandardCharsets.UTF_8));
         return tripRepository.save(trip);
     }
-
-
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -26,12 +27,14 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
-    private String cities;
+    private String city;
     private LocalDate startDate;
     private LocalDate endDate;
     private String ownerName;
     private String email;
     private LocalDateTime createdAt;
     private byte[] data;
+    @Transient
+    private String filePath;
 
 }
